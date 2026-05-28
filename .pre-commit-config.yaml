@@ -1,0 +1,25 @@
+repos:
+    - repo: local
+      hooks:
+          - id: prettier
+            name: Prettier
+            entry:
+                bunx prettier --write --ignore-unknown --end-of-line lf
+                --insert-pragma false --trailing-comma es5 --tab-width 4
+                --use-tabs false --print-width 80
+            language: system
+            types_or:
+                [
+                    javascript,
+                    jsx,
+                    ts,
+                    tsx,
+                    css,
+                    less,
+                    scss,
+                    html,
+                    json,
+                    markdown,
+                    yaml,
+                ]
+            pass_filenames: true
