@@ -544,63 +544,603 @@ communicate with the Argo API.
 Create or edit the OpenCode configuration file at `~/.opencode/config.json` (or
 `opencode.json` in your project root) with the following contents:
 
-```json
+````json
 {
-    "$schema": "https://opencode.ai/config.json",
-    "share": "disabled",
-    "autoupdate": "notify",
-    "experimental": {
-        "openTelemetry": false
-    },
-    "provider": {
-        "argo": {
-            "npm": "@ai-sdk/openai-compatible",
-            "name": "Argo Gateway API",
-            "options": {
-                "baseURL": "http://localhost:52675/v1",
-                "apiKey": "<your-argonne-username>"
+  "$schema": "https://opencode.ai/config.json",
+  "share": "disabled",
+  "autoupdate": "notify",
+  "experimental": {
+    "openTelemetry": false
+  },
+  "provider": {
+    "argo": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Argo Gateway API",
+      "options": {
+        "baseURL": "http://localhost:52675/v1",
+        "apiKey": "nsynovic"
+      },
+      "models": {
+        "argo:gpt-4o-2024-11-20": {
+          "name": "GPT-4o (2024-11-20)",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 128000,
+            "output": 16384
+          }
+        },
+        "argo:gpt-o3-mini": {
+          "name": "GPT o3 Mini"
+        },
+        "argo:o3-mini": {
+          "name": "o3 Mini",
+          "limit": {
+            "context": 200000,
+            "output": 100000
+          }
+        },
+        "argo:gpt-o1": {
+          "name": "GPT o1"
+        },
+        "argo:o1": {
+          "name": "o1",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 100000
+          }
+        },
+        "argo:gpt-o3": {
+          "name": "GPT o3"
+        },
+        "argo:o3": {
+          "name": "o3",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 100000
+          }
+        },
+        "argo:gpt-o4-mini": {
+          "name": "GPT o4 Mini"
+        },
+        "argo:o4-mini": {
+          "name": "o4 Mini",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 100000
+          }
+        },
+        "argo:gpt-4.1": {
+          "name": "GPT-4.1",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1047576,
+            "output": 32768
+          }
+        },
+        "argo:gpt-4.1-mini": {
+          "name": "GPT-4.1 Mini",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1047576,
+            "output": 32768
+          }
+        },
+        "argo:gpt-4.1-nano": {
+          "name": "GPT-4.1 Nano",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1047576,
+            "output": 32768
+          }
+        },
+        "argo:gpt-5": {
+          "name": "GPT-5",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 400000,
+            "output": 128000
+          },
+          "variants": {
+            "none": {
+              "reasoningEffort": "none",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
             },
-            "models": {
-                "argo:gpt-4o-2024-11-20": { "name": "GPT-4o (2024-11-20)" },
-                "argo:gpt-o3-mini": { "name": "GPT o3 Mini" },
-                "argo:o3-mini": { "name": "o3 Mini" },
-                "argo:gpt-o1": { "name": "GPT o1" },
-                "argo:o1": { "name": "o1" },
-                "argo:gpt-o3": { "name": "GPT o3" },
-                "argo:o3": { "name": "o3" },
-                "argo:gpt-o4-mini": { "name": "GPT o4 Mini" },
-                "argo:o4-mini": { "name": "o4 Mini" },
-                "argo:gpt-4.1": { "name": "GPT-4.1" },
-                "argo:gpt-4.1-mini": { "name": "GPT-4.1 Mini" },
-                "argo:gpt-4.1-nano": { "name": "GPT-4.1 Nano" },
-                "argo:gpt-5": { "name": "GPT-5" },
-                "argo:gpt-5-mini": { "name": "GPT-5 Mini" },
-                "argo:gpt-5-nano": { "name": "GPT-5 Nano" },
-                "argo:gpt-5.1": { "name": "GPT-5.1" },
-                "argo:gpt-5.2": { "name": "GPT-5.2" },
-                "argo:gpt-5.4": { "name": "GPT-5.4" },
-                "argo:gpt-5.5": { "name": "GPT-5.5" },
-                "argo:gemini-2.5-pro": { "name": "Gemini 2.5 Pro" },
-                "argo:gemini-2.5-flash": { "name": "Gemini 2.5 Flash" },
-                "argo:claude-4.7-opus": { "name": "Claude 4.7 Opus" },
-                "argo:claude-opus-4.7": { "name": "Claude Opus 4.7" },
-                "argo:claude-4.6-opus": { "name": "Claude 4.6 Opus" },
-                "argo:claude-opus-4.6": { "name": "Claude Opus 4.6" },
-                "argo:claude-4.5-opus": { "name": "Claude 4.5 Opus" },
-                "argo:claude-opus-4.5": { "name": "Claude Opus 4.5" },
-                "argo:claude-4.1-opus": { "name": "Claude 4.1 Opus" },
-                "argo:claude-opus-4.1": { "name": "Claude Opus 4.1" },
-                "argo:claude-4.5-haiku": { "name": "Claude 4.5 Haiku" },
-                "argo:claude-haiku-4.5": { "name": "Claude Haiku 4.5" },
-                "argo:claude-4.6-sonnet": { "name": "Claude 4.6 Sonnet" },
-                "argo:claude-sonnet-4.6": { "name": "Claude Sonnet 4.6" },
-                "argo:claude-4.5-sonnet": { "name": "Claude 4.5 Sonnet" },
-                "argo:claude-sonnet-4.5": { "name": "Claude Sonnet 4.5" }
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
             }
+          }
+        },
+        "argo:gpt-5-mini": {
+          "name": "GPT-5 Mini",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 400000,
+            "output": 128000
+          },
+          "variants": {
+            "none": {
+              "reasoningEffort": "none",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            }
+          }
+        },
+        "argo:gpt-5-nano": {
+          "name": "GPT-5 Nano",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 400000,
+            "output": 128000
+          },
+          "variants": {
+            "none": {
+              "reasoningEffort": "none",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            }
+          }
+        },
+        "argo:gpt-5.1": {
+          "name": "GPT-5.1",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 400000,
+            "output": 128000
+          },
+          "variants": {
+            "none": {
+              "reasoningEffort": "none",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            }
+          }
+        },
+        "argo:gpt-5-2": {
+          "name": "GPT-5.2",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 400000,
+            "output": 128000
+          },
+          "variants": {
+            "none": {
+              "reasoningEffort": "none",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            }
+          }
+        },
+        "argo:gpt-5.4": {
+          "name": "GPT-5.4",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "variants": {
+            "none": {
+              "reasoningEffort": "none",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            }
+          }
+        },
+        "argo:gpt-5.5": {
+          "name": "GPT-5.5",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "variants": {
+            "none": {
+              "reasoningEffort": "none",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            }
+          }
+        },
+        "argo:gemini-2.5-pro": {
+          "name": "Gemini 2.5 Pro",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          }
+        },
+        "argo:gemini-2.5-flash": {
+          "name": "Gemini 2.5 Flash",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          }
+        },
+        "argo:claude-opus-4.7": {
+          "name": "Claude 4.7 Opus",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 32000
+          }
+        },
+        "argo:claude-opus-4.6": {
+          "name": "Claude Opus 4.6",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 32000
+          }
+        },
+        "argo:claude-opus-4.5": {
+          "name": "Claude Opus 4.5",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 32000
+          }
+        },
+        "argo:claude-opus-4.1": {
+          "name": "Claude Opus 4.1",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 32000
+          }
+        },
+        "argo:claude-haiku-4.5": {
+          "name": "Claude 4.5 Haiku",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 8192
+          }
+        },
+        "argo:claude-sonnet-4.6": {
+          "name": "Claude 4.6 Sonnet",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          }
+        },
+        "argo:claude-sonnet-4.5": {
+          "name": "Claude 4.5 Sonnet",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          }
         }
+      }
     }
-}
-```
+  }
+}```
 
 ##### Key Configuration Details:
 
@@ -623,7 +1163,7 @@ project directory:
 ```bash
 opencode
 
-```
+````
 
 OpenCode will detect the `opencode.json` configuration and register the `argo`
 provider along with all listed models. You can select any of the configured
