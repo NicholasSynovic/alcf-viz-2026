@@ -1,3 +1,0 @@
-[submodule "paraview_mcp"]
-	path = paraview_mcp
-	url = git@github.com:NicholasSynovic/paraview_mcp.git
