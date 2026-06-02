@@ -428,10 +428,10 @@ Expected output format:
 
 ```json
 {
-    "argo_base_url": "[https://apps.inside.anl.gov/argoapi](https://apps.inside.anl.gov/argoapi)",
+    "argo_base_url": "https://apps.inside.anl.gov/argoapi",
     "mode": "universal",
-    "native_anthropic_base_url": "[https://apps.inside.anl.gov/argoapi](https://apps.inside.anl.gov/argoapi)",
-    "native_openai_base_url": "[https://apps.inside.anl.gov/argoapi/v1](https://apps.inside.anl.gov/argoapi/v1)",
+    "native_anthropic_base_url": "https://apps.inside.anl.gov/argoapi",
+    "native_openai_base_url": "https://apps.inside.anl.gov/argoapi/v1",
     "port": 52675,
     "user": "<your-argonne-username>",
     "verbose": true
@@ -460,7 +460,7 @@ You should see a startup banner similar to:
 The proxy is now running on `http://0.0.0.0:52675` and ready to accept requests
 from OpenCode.
 
-> 💡 **Tip:** You can also start the server with explicit options to override
+> **Tip:** You can also start the server with explicit options to override
 > config values: `argo-proxy serve --port 52675 --verbose --show`
 
 ### 7. Verify Available Models
