@@ -339,11 +339,11 @@ argo-proxy config env prod
 
 This updates `argo_base_url` in your config to the production endpoint:
 
-| Environment     | Base URL                                   |
-| --------------- | ------------------------------------------ |
-| **Production**  | `https://apps.inside.anl.gov/argoapi`      |
-| **Development** | `https://apps-dev.inside.anl.gov/argoapi`  |
-| **Test**        | `https://apps-test.inside.anl.gov/argoapi` |
+| Environment | Base URL                                   |
+| ----------- | ------------------------------------------ |
+| **prod**    | `https://apps.inside.anl.gov/argoapi`      |
+| **dev**     | `https://apps-dev.inside.anl.gov/argoapi`  |
+| **test**    | `https://apps-test.inside.anl.gov/argoapi` |
 
 #### 4.2 Edit the Configuration
 
@@ -366,7 +366,7 @@ verbose: true
 log_to_file: false
 
 # Upstream
-argo_base_url: "[https://apps.inside.anl.gov/argoapi](https://apps.inside.anl.gov/argoapi)"
+argo_base_url: "https://apps.inside.anl.gov/argoapi"
 
 # Network & validation
 connection_test_timeout: 5
@@ -546,13 +546,12 @@ Create or edit the OpenCode configuration file at `~/.opencode/config.json` (or
 
 ```json
 {
-    "$schema": "[https://opencode.ai/config.json](https://opencode.ai/config.json)",
+    "$schema": "https://opencode.ai/config.json",
     "share": "disabled",
     "autoupdate": "notify",
     "experimental": {
         "openTelemetry": false
     },
-    "plugin": ["opencode-gemini-auth@latest"],
     "provider": {
         "argo": {
             "npm": "@ai-sdk/openai-compatible",
