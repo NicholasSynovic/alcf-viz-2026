@@ -1,0 +1,17 @@
+9:## Project Framing
+36:## Scope
+61:## Target Venue
+68:## Compute & LLM Backends
+80:## Evaluation Metrics
+94:## 10-Week Timeline
+109:## Week 2 — Review + Setup (in progress)
+127:## Week 3 — ParaView MCP PoC + first NL→viz
+137:## Week 4 — ChatVis-mini in SmolAgents
+150:## Week 5 — Docs-MCP vs. ChatVis-RAG harness (MVR)
+163:## Week 6 — Prompt-strategy sweep
+172:## Week 7 — Context-strategy sweep
+182:## Week 8 — Poster
+189:## Week 9 — Report + repo + video
+196:## Week 10 — AgenticAI4HPC submission
+203:## Cross-Cutting Open Threads
+213:## Success Criteria

@@ -1,0 +1,4 @@
+3:## Homework from 06-02-2026
+40:## Week 2 Focus
+66:## Notes
+[`notes/artifacts/tasks.md`](artifacts/tasks.md) — it supersedes the embedded
