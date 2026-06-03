@@ -1140,7 +1140,8 @@ Create or edit the OpenCode configuration file at `~/.opencode/config.json` (or
       }
     }
   }
-}```
+}
+```
 
 ##### Key Configuration Details:
 
