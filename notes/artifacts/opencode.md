@@ -544,7 +544,7 @@ communicate with the Argo API.
 Create or edit the OpenCode configuration file at `~/.opencode/config.json` (or
 `opencode.json` in your project root) with the following contents:
 
-````json
+```json
 {
   "$schema": "https://opencode.ai/config.json",
   "share": "disabled",
