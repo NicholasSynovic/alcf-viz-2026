@@ -558,7 +558,7 @@ Create or edit the OpenCode configuration file at `~/.opencode/config.json` (or
       "name": "Argo Gateway API",
       "options": {
         "baseURL": "http://localhost:52675/v1",
-        "apiKey": "nsynovic"
+        "apiKey": "<your-argonne-username>"
       },
       "models": {
         "argo:gpt-4o-2024-11-20": {
