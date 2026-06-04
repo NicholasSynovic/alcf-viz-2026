@@ -1,5 +1,7 @@
 # Project Charter: Agentic Orchestration for Scientific Visualization
 
+> NOTE: This deliverable is reflective of the task list from 05-28-2026
+
 ## Project Overview & Alignment
 
 ### Purpose
