@@ -1,2 +1,0 @@
-49:**Explicitly out of scope** (per 06-02 scope-down): INRs, MFAs, KANs,
-50:homomorphic data representations, neural rendering. If a question doesn't help

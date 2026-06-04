@@ -1,2 +1,0 @@
-70:  visualization." Out of scope: INRs, MFAs, KANs, homomorphic data
-71:  representations, neural rendering. If a question doesn't help us decide
