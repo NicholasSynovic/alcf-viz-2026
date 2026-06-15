@@ -1,3 +1,6 @@
 [submodule "paraview_mcp"]
 	path = paraview_mcp
 	url = https://github.com/NicholasSynovic/paraview_mcp
+[submodule "argo-opencode-integration"]
+	path = argo-opencode-integration
+	url = git@github.com:NicholasSynovic/argo-opencode-integration
