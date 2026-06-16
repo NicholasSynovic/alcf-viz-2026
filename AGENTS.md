@@ -1,9 +1,9 @@
 # AGENTS.md
 
 Notes and planning repo for the **ALCF 2026 summer project** (agentic
-orchestration of scientific visualization on DOE HPC). **No application code
-lives here yet** — only Markdown notes under
-[`notes/`](file:///home/nicholas/Documents/projects/alcf-viz-2026/notes).
+orchestration of scientific visualization on DOE HPC). The repo is
+**Markdown-only**; no application code lives here. Code dependencies are pulled
+in as git submodules and should not be edited from this repo.
 
 ## Repo shape
 
@@ -12,39 +12,56 @@ lives here yet** — only Markdown notes under
 - [`notes/artifacts/`](file:///home/nicholas/Documents/projects/alcf-viz-2026/notes/artifacts)
   — longer-lived references (project charter, setup guides, perplexity dumps).
   Linked from daily notes via relative paths.
-- A `paraview_mcp` git submodule existed and was **intentionally removed**
-  (commit `cddbe85`). Do not re-add it; the upstream is tracked separately.
+- [`notes/scivis-literature/`](file:///home/nicholas/Documents/projects/alcf-viz-2026/notes/scivis-literature)
+  — paper notes **exported from Zotero** using
+  [`notes/note-templates/Zotero Note Import.md`](file:///home/nicholas/Documents/projects/alcf-viz-2026/notes/note-templates/Zotero%20Note%20Import.md).
+  Do not hand-edit the `%% begin annotations %% … %% end annotations %%` blocks
+  or the YAML frontmatter — they get clobbered on the next Zotero re-import.
+  Personal synthesis goes in the `%% begin notes %%` block or in daily notes /
+  `report.md`.
+- [`report.md`](file:///home/nicholas/Documents/projects/alcf-viz-2026/report.md)
+  — top-level synthesis derived from the literature notes; safe to edit
+  directly.
+- Two git submodules, both owned upstream by NicholasSynovic — **do not commit
+  changes inside them from this repo**:
+    - [`paraview_mcp/`](file:///home/nicholas/Documents/projects/alcf-viz-2026/paraview_mcp)
+      (custom ParaView MCP server)
+    - [`argo-opencode-integration/`](file:///home/nicholas/Documents/projects/alcf-viz-2026/argo-opencode-integration)
+      (Argo proxy + Claude/OpenCode launcher; supersedes the older standalone
+      `argo-proxy` setup mentioned in some daily notes).
+
+    After cloning, run `git submodule update --init --recursive`.
 
 ## Formatting (non-default, enforced by pre-commit)
 
-All Markdown / JS / TS / CSS / HTML / JSON / YAML is formatted by
-**`bunx prettier`** via
-[`.pre-commit-config.yaml`](file:///home/nicholas/Documents/projects/alcf-viz-2026/.pre-commit-config.yaml).
-The settings differ from prettier defaults — match them or the hook will rewrite
-your edits:
+All Markdown / JS / TS / CSS / HTML / JSON / YAML is formatted by **`prettier`**
+via
+[`.pre-commit-config.yaml`](file:///home/nicholas/Documents/projects/alcf-viz-2026/.pre-commit-config.yaml)
+(`language: system` — it runs whichever `prettier` is on `PATH`; install via
+`bun add -g prettier`, `npm i -g prettier`, etc.). Settings differ from prettier
+defaults — match them or the hook will rewrite your edits:
 
 - `--tab-width 4` (4 spaces, **not** 2 — matches
   [`.editorconfig`](file:///home/nicholas/Documents/projects/alcf-viz-2026/.editorconfig)
   `indent_size = 4`)
 - `--print-width 80` (hard wrap at 80;
   [`.prettierrc`](file:///home/nicholas/Documents/projects/alcf-viz-2026/.prettierrc)
-  sets `proseWrap: always` so prose gets re-wrapped)
+  sets `proseWrap: always` so prose gets re-wrapped — expect your paragraphs to
+  be rewrapped)
 - `--trailing-comma es5`
 - `--end-of-line lf`, `--use-tabs false`, `--insert-pragma false`
 - `trim_trailing_whitespace = true`, final newline required
 
-`bun` must be installed locally for the hook to run. If you don't have `bun`,
-run `prettier` manually with the flags above before committing.
-
-Format before committing:
+Format before committing (either invocation works):
 
 ```bash
-bunx prettier --write --ignore-unknown --end-of-line lf \
+prettier --write --ignore-unknown --end-of-line lf \
   --insert-pragma false --trailing-comma es5 --tab-width 4 \
   --use-tabs false --print-width 80 <files>
-```
 
-Or, if `pre-commit` is installed: `pre-commit run --all-files`.
+# or, if pre-commit is installed:
+pre-commit run --all-files
+```
 
 ## Writing daily notes
 
@@ -60,9 +77,10 @@ Existing daily notes use a consistent structure worth preserving:
 
 The current plan-of-record is in the **most recent** `notes/MM-DD-YYYY.md` and
 in
-[`notes/artifacts/week1_deliverable.md`](file:///home/nicholas/Documents/projects/alcf-viz-2026/notes/artifacts/week1_deliverable.md)
-(the project charter). If a daily note conflicts with an older artifact, the
-daily note wins.
+[`notes/artifacts/week1b_deliverable.md`](file:///home/nicholas/Documents/projects/alcf-viz-2026/notes/artifacts/week1b_deliverable.md)
+(the project charter; `week1a_deliverable.md` is the earlier draft — `1b`
+supersedes it). If a daily note conflicts with an older artifact, the daily note
+wins.
 
 ## Project context (so suggestions stay in scope)
 
@@ -72,7 +90,7 @@ daily note wins.
 - **Primary compute**: Crux (access pending as of latest notes).
   Polaris/Sophia/Argo API are also in scope.
 - **Out of scope** (per
-  [`week1_deliverable.md`](file:///home/nicholas/Documents/projects/alcf-viz-2026/notes/artifacts/week1_deliverable.md)
+  [`week1b_deliverable.md`](file:///home/nicholas/Documents/projects/alcf-viz-2026/notes/artifacts/week1b_deliverable.md)
   and the 06-02 scope-down): INRs, MFAs, KANs, homomorphic data representations,
   neural rendering research. The 06-02 meeting narrowed focus toward **ParaView
   Docs MCP vs. ChatVis RAG benchmarking**.
