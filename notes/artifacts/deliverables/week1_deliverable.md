@@ -122,11 +122,12 @@ set of pre-defined tool calls.
 ### Agent Harness
 
 **OpenCode** serves as the coding agent harness, wired to the **ALCF Argo
-Gateway API** . The Argo Gateway provides access to both proprietary and open
-LLM backends through a single OpenAI-compatible endpoint, eliminating the need
-for separate API integrations. A custom OpenCode prompt-improvement subagent
-pre-processes user queries to conform to the structured input format expected by
-the visualization pipeline.
+Gateway API**. The Argo Gateway provides access to both proprietary and open LLM
+backends through a single OpenAI-compatible endpoint, eliminating the need for
+separate API integrations. A dedicated OpenCode-native prompt-improvement
+subagent pre-processes user queries, reformulating informal natural language
+requests into the structured input format expected by the visualization
+pipeline.
 
 ### LLM Backends
 
@@ -144,11 +145,10 @@ Gateway; all open models are accessed via the ALCF Inference Service.
 
 ### Compute
 
-**Crux** (ALCF) is the primary compute target, selected because the project
-relies on API calls to hosted LLM services rather than self-hosting models —
-Crux's CPU allocation is sufficient and avoids contending for GPU hours. Polaris
-and Sophia serve as fallback targets if Crux allocations are unavailable for a
-given run.
+**Crux** (ALCF) is the primary compute target. Because the project relies on API
+calls to hosted LLM services rather than self-hosting models, Crux's CPU
+allocation is sufficient for the workload. Polaris and Sophia serve as fallback
+targets if Crux allocations are unavailable for a given run.
 
 ---
 
@@ -190,18 +190,19 @@ The system produces three artifacts per successful run:
 The following diagram illustrates the proposed agent → visualization pipeline →
 HPC system interaction:
 
-![Proposed Architecture](../Proposal.png)
+![Proposed Architecture](week1_proposal.png)
 
 The pipeline operates in six stages:
 
 1. **User prompt ingestion.** The scientist submits a natural language prompt
-   and a dataset path. A `smolagent`-based subagent optionally reformulates the
-   prompt to match the structured input format expected downstream.
+   and a dataset path. An OpenCode-native prompt-improvement subagent
+   reformulates the prompt to match the structured input format expected
+   downstream.
 
-2. **Skill loading.** A `SKILL.md` file — combining code snippets from
-   SciVisAgentSkills and ChatVis V1/V2 — is loaded into the coding agent's
-   context. The agent uses the skill headers to determine whether to invoke the
-   full skill or the downstream MCP services.
+2. **Skill loading.** A `SKILL.md` file — merging code snippets from
+   SciVisAgentSkills and ChatVis V1/V2 (HPC-Skills excluded as redundant) — is
+   loaded into the coding agent's context. The agent uses the skill headers to
+   determine whether to invoke the full skill or the downstream MCP services.
 
 3. **Code generation.** The coding agent (OpenCode + Argo LLM backend) generates
    a ParaView Python script. This may draw on: (a) the `SKILL.md` code snippets

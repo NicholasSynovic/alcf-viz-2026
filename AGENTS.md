@@ -83,15 +83,18 @@ The current plan-of-record is the week-by-week milestone list in
 been folded into this file). If a daily note conflicts with the Task List, the
 more recent one wins — daily notes track reality, the Task List lags. As of the
 latest notes, actual work sits around Week 6–7 but Task List Weeks 4–10 are
-still unrevised. `notes/artifacts/deliverables/` exists but is currently empty.
+still unrevised. Formal deliverables live in
+[`notes/artifacts/deliverables/`](file:///home/nicholas/Documents/projects/alcf-viz-2026/notes/artifacts/deliverables)
+(`week1_deliverable.md` is the current project charter; `proposal.drawio` +
+`week1_proposal.png` are the architecture diagram source and export).
 
 ## Project context (so suggestions stay in scope)
 
-- **Stack**: ParaView + a custom ParaView MCP server, agent framework TBD
-  (SmolAgents first, LangChain/LangGraph fallback), Argo Gateway API for LLMs,
-  OpenCode as the dev-side client.
-- **Primary compute**: Crux (access pending as of latest notes).
-  Polaris/Sophia/Argo API are also in scope.
+- **Stack**: ParaView + a custom ParaView MCP server, Argo Gateway API for LLMs,
+  OpenCode as the fixed agent harness / dev-side client. SmolAgents and
+  LangChain/LangGraph appear in older notes as candidate frameworks but are no
+  longer in scope — do not reintroduce them in current planning docs.
+- **Primary compute**: Crux. Polaris/Sophia/Argo API are also in scope.
 - **Out of scope** (per the 06-02 scope-down): INRs, MFAs, KANs, homomorphic
   data representations, neural rendering research. The 06-02 meeting narrowed
   focus toward **ParaView Docs MCP vs. ChatVis RAG benchmarking**.

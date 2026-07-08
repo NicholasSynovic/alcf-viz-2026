@@ -46,7 +46,7 @@ workshop.
             - Session URL comes from the ParaView MCP work. Although this may
               not be feasible as statefulness in MCP servers is difficult to
               implement
-- [ ] M1.3 Draft a one-page project charter specifying:
+- [x] M1.3 Draft a one-page project charter specifying:
     - Which visualization backend(s) to target (ParaView/Catalyst, Ascent, VTK,
       matplotlib as fallback).
         - Nope, only focus on ParaView
@@ -58,7 +58,7 @@ workshop.
         - Crux
     - Success criteria for the summer deliverable.
         -
-- [ ] M1.4 Map the project charter to relevant project milestones, annotating
+- [x] M1.4 Map the project charter to relevant project milestones, annotating
       which goals this work advances.
 
 #### Week 2 — Technical Landscape Review & Environment Setup
