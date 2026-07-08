@@ -15,15 +15,24 @@ Scientific visualization at extreme scale remains a significant bottleneck in
 the scientific discovery process. Scientists routinely spend hours manually
 constructing ParaView pipelines to inspect simulation outputs — time that could
 be redirected toward analysis and insight. Agentic Large Language Model (LLM)
-systems offer a path to automating this process, but existing approaches fall
+systems offer a path to automating this process, but existing approaches divide
 into two camps with distinct limitations: code-generation agents (e.g., ChatVis)
-that are fast but fragile against API changes, and tool-driven MCP agents (e.g.,
-ParaView-MCP) that are stable but high-latency and narrowly scoped. No system
-has systematically compared these strategies or explored the space of
-intermediate solutions — for example, retrieval-augmented generation (RAG) over
-the full ParaView documentation, or combining MCP execution with skill-guided
-code generation. Critically, neither camp addresses the human dimension of the
-problem: the bottleneck is not only technical, but collaborative.
+that are fast but fragile against API changes and accumulate errors across
+multi-step workflows, and tool-driven MCP agents (e.g., ParaView-MCP) that are
+stable but high-latency and narrowly constrained to predefined tool schemas.
+Recent work (Ai et al., SciVisAgentSkills, 2026) identifies a third design axis
+orthogonal to both: agent skills — structured, reusable packages of procedural
+knowledge encoding environment assumptions, tool usage patterns, API
+conventions, and domain heuristics. Skills improve code-generation and MCP-based
+agents alike, but their effect depends on the interaction between skill content,
+the underlying LLM, and the agent harness that loads and applies them. This
+harness-skill-model interaction is empirically unresolved: SciVisAgentSkills
+evaluated Claude Code and Codex, but OpenCode — the harness used in this project
+— has not been studied. No work has systematically compared all three design
+axes together, nor evaluated which combination of strategy, skill, and model
+produces the highest visual quality under a consistent harness. Critically, none
+of these camps addresses the human dimension of the problem: the bottleneck is
+not only technical, but collaborative.
 
 Effective scientific visualization requires close coordination between domain
 scientists and visualization experts. Domain scientists understand the data
@@ -49,40 +58,75 @@ expert-dependent visualization pipelines is across the scientific computing
 stack. This project targets post-hoc interactive visualization in ParaView as a
 concrete, tractable instance of the broader problem.
 
-Against this backdrop, no existing system has evaluated whether prompt
-engineering or context management is the more effective lever for improving
-agent reliability — and whether the answer is stable across LLM backends of
-different sizes and capabilities. This project asks: **which context-management
-and prompt-engineering strategies produce the most reliable, accurate, and
-efficient LLM-driven scientific visualizations in ParaView for domain scientists
-using informal natural language prompts, and how does the answer vary across LLM
-backends?**
+Against this backdrop, no existing system has evaluated all three design axes —
+code generation strategy, agent skill layer, and LLM backend — together under a
+single fixed harness, nor examined which combination produces the highest visual
+quality for domain scientists supplying informal natural language prompts.
+SciVisAgentSkills explicitly leaves harness-skill interaction under OpenCode as
+an open problem; this project addresses it directly. This project asks: **under
+OpenCode as a fixed agent harness, which combination of visualization strategy
+(few-shot code generation, RAG over code snippets, agent skills, structured MCP
+tool calls, or RAG over API documentation) and LLM backend produces the highest
+visual quality in ParaView when driven by informal natural language prompts from
+domain scientists — and how does the answer vary as model size and capability
+change?** The precise operationalization of visual quality for this setting is
+itself an open research question that this project will address as part of its
+evaluation methodology.
 
 ---
 
 ## Scope
 
-**In scope:**
+This project targets ParaView as the sole visualization backend, with all code
+execution running through `pvpython` on a headless ParaView instance. OpenCode,
+connected to the ALCF Argo Gateway API, serves as the fixed agent harness
+throughout — harness variation is not studied here, making every result directly
+comparable across strategies and models. The central inquiry is how five
+concrete strategies, differing in what procedural knowledge they inject and how,
+affect visualization quality as the LLM backend and configuration vary. The
+first strategy is **few-shot prompt improvement and code generation** (ChatVis
+v1, Mallick et al. 2024), in which an LLM rewrites the scientist's prompt using
+few-shot examples before generating a `pvpython` script that is executed and
+iteratively repaired. The second is **RAG over ParaView code snippets** (ChatVis
+v2, 2025), which replaces prompt improvement with retrieval: a FAISS index of
+curated ParaView code snippets is queried at generation time and injected
+directly into the code-generation prompt. The third is an **OpenCode-native
+prompt-formatting subagent paired with a `paraview-coder` agent skill** (ChatVis
+v3, extending SciVisAgentSkills, Ai et al. 2026), in which a dedicated subagent
+shapes the user's informal request into a precise ParaView prompt and a
+structured skill — encoding environment assumptions, API conventions, headless
+rendering requirements, and observed `pvpython` failure modes — guides the
+coding agent through script generation; the repair loop is delegated to the host
+agent rather than hardcoded in a pipeline. The fourth strategy is **structured
+MCP tool calls** (ParaView-MCP v1/v2, Liu et al. 2025), in which the coding
+agent drives a live `pvserver` instance through a set of predefined, typed MCP
+tools rather than generating free-form Python scripts. The fifth is a **planned
+novel contribution**: a retrieval service over the full `paraview.simple` API
+documentation, exposed as an MCP tool, which allows the agent to look up correct
+API usage at generation time rather than relying on static code snippets or
+manually curated skill heuristics. Evaluation draws on the ParaView-supported
+benchmark cases from both NL2SciViz (Mathai et al. 2026) and SciVisAgentBench
+(2026), augmented with the Taylor-Green Vortex CFD synthetic dataset. Rather
+than optimizing for benchmark pass rates alone, the primary emphasis is on the
+visual quality of the generated visualization as perceived by domain scientists
+— the precise operationalization of visual quality for this setting is an open
+research question that this project will address as part of its evaluation
+methodology.
 
-- ParaView as the sole visualization backend (via `pvpython` and a custom
-  ParaView MCP server)
-- Comparing prompt-engineering vs. context-management strategies for LLM-driven
-  visualization
-- Benchmarking across multiple LLM backends using existing evaluation suites
-  (NL2SciViz, SciVisAgentBench)
-- Exploration of RAG over ParaView documentation, `SKILL.md`-based context
-  injection, and MCP tool-driven execution as competing or composable strategies
-
-**Out of scope:**
-
-- Implicit Neural Representations (INRs), Multiplicative Filter Architectures
-  (MFAs), Kolmogorov–Arnold Networks (KANs)
-- Homomorphic data representations and neural rendering research
-- Visualization backends other than ParaView (Ascent, VTK, matplotlib)
-- User studies (require ANL IRB approval; timeline incompatible with summer
-  internship)
-- Agent-to-Agent (A2A) communication (out of scope for this summer; may be
-  explored as a stretch goal)
+Several directions are explicitly out of scope. Implicit Neural Representations,
+Multiplicative Filter Architectures, Kolmogorov–Arnold Networks, homomorphic
+data representations, and neural rendering research were excluded by the June
+2026 project scope-down and remain so. Visualization backends other than
+ParaView — including Ascent, VTK, and matplotlib — are not targeted. User
+studies of scientist behavior require ANL IRB approval on a timeline
+incompatible with this internship and are excluded. Agent-to-Agent (A2A)
+communication is a stretch goal at most and is not a committed deliverable.
+In-situ visualization workflows motivate the problem but are not a contribution
+of this project, which targets post-hoc interactive visualization only. Finally,
+agent harness comparison — for example, evaluating the same strategies under
+Claude Code or Codex rather than OpenCode — is left for future work; the
+SciVisAgentSkills paper provides those baselines and this project contributes
+the OpenCode data point.
 
 ---
 
