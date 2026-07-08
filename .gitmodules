@@ -4,3 +4,6 @@
 [submodule "argo-opencode-integration"]
 	path = argo-opencode-integration
 	url = git@github.com:NicholasSynovic/argo-opencode-integration
+[submodule "chatvis"]
+	path = chatvis
+	url = https://github.com/NicholasSynovic/chatvis

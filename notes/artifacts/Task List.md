@@ -1,3 +1,15 @@
+## About
+
+This is a list of tasks that I need to complete in order to prove to my advisors
+(Silvio and George) that I have had a productive summer at Argonne National
+Labs. These tasks also provide the framework and scaffolding necessary to create
+posters for submission to the SuperComputing poster session and an academic
+workshop.
+
+## Weekly Task List
+
+> Created in collaboration with LLMs
+
 #### Week 1 — Project Scoping & Alignment
 
 > **Objective:** Define a concrete, demonstrable project targeting agentic
@@ -7,23 +19,45 @@
 > shared with the team, including a diagram showing the agent -> visualization
 > pipeline -> HPC system interaction.
 
-- [ ] M1.1 Meet with the thrust lead and relevant team members to select the
+- [x] M1.1 Meet with the thrust lead and relevant team members to select the
       target science domain for the prototype (cosmology, X-ray science, or
       fusion flow).
-- [ ] M1.2 Define the assistant's input/output contract:
+    - Primarily going to target synthetic datasets. The datasets come from prior
+      work and a synthetically generated CFD simulation hosted on Aurora
+- [x] M1.2 Define the assistant's input/output contract:
     - Input: Natural language queries from a scientist (e.g., "Generate a
       contour plot of dark matter density at timestep 400 with a threshold above
       1e3")
+        - This is realistically going to be non-intuitive and non-specific. A
+          better example would be "Generate an isosurface of this data file in
+          ParaView"
+        - The synthetic CFD dataset comes with example prompts, although these
+          are fairly specific and may need to be generalized
+        - Prior work also lists example works that we can use
+            - ChatVis 2024, ChatVis 2025, ParaView MCP, SciVisAgentBench,
+              SciVisAgentSkills
     - Output: An orchestrated visualization artifact (rendered image,
       interactive session URL, or ParaView state file) plus a provenance log of
       all actions taken.
+        - These are functional requirements that the user will need to be able
+          to work with.
+            - Images come from all prior work
+            - NL2SciVis benchmark uses paraview state files
+            - Session URL comes from the ParaView MCP work. Although this may
+              not be feasible as statefulness in MCP servers is difficult to
+              implement
 - [ ] M1.3 Draft a one-page project charter specifying:
     - Which visualization backend(s) to target (ParaView/Catalyst, Ascent, VTK,
       matplotlib as fallback).
+        - Nope, only focus on ParaView
     - Which agent framework to use (SmolAgents, LangChain, or custom).
+        - We are going to use the OpenCode coding harness
     - Which LLM backends to evaluate (proprietary and open-source - see M2.5).
+        - GPT, Anthropic, Open Models
     - Which compute target (Polaris, Sophia, Crux).
+        - Crux
     - Success criteria for the summer deliverable.
+        -
 - [ ] M1.4 Map the project charter to relevant project milestones, annotating
       which goals this work advances.
 

@@ -22,13 +22,15 @@ in as git submodules and should not be edited from this repo.
 - [`report.md`](file:///home/nicholas/Documents/projects/alcf-viz-2026/report.md)
   — top-level synthesis derived from the literature notes; safe to edit
   directly.
-- Two git submodules, both owned upstream by NicholasSynovic — **do not commit
+- Three git submodules, all owned upstream by NicholasSynovic — **do not commit
   changes inside them from this repo**:
     - [`paraview_mcp/`](file:///home/nicholas/Documents/projects/alcf-viz-2026/paraview_mcp)
       (custom ParaView MCP server)
     - [`argo-opencode-integration/`](file:///home/nicholas/Documents/projects/alcf-viz-2026/argo-opencode-integration)
       (Argo proxy + Claude/OpenCode launcher; supersedes the older standalone
       `argo-proxy` setup mentioned in some daily notes).
+    - [`chatvis/`](file:///home/nicholas/Documents/projects/alcf-viz-2026/chatvis)
+      (ChatVis migration/reimplementation — the NL-to-ParaView code path).
 
     After cloning, run `git submodule update --init --recursive`.
 
@@ -75,12 +77,13 @@ Existing daily notes use a consistent structure worth preserving:
   plan evolves. When updating the plan, edit the **latest** daily note rather
   than past ones.
 
-The current plan-of-record is in the **most recent** `notes/MM-DD-YYYY.md` and
-in
-[`notes/artifacts/week1b_deliverable.md`](file:///home/nicholas/Documents/projects/alcf-viz-2026/notes/artifacts/week1b_deliverable.md)
-(the project charter; `week1a_deliverable.md` is the earlier draft — `1b`
-supersedes it). If a daily note conflicts with an older artifact, the daily note
-wins.
+The current plan-of-record is the week-by-week milestone list in
+[`notes/artifacts/Task List.md`](file:///home/nicholas/Documents/projects/alcf-viz-2026/notes/artifacts/Task%20List.md)
+(the project charter; the older `week1a`/`week1b_deliverable.md` drafts have
+been folded into this file). If a daily note conflicts with the Task List, the
+more recent one wins — daily notes track reality, the Task List lags. As of the
+latest notes, actual work sits around Week 6–7 but Task List Weeks 4–10 are
+still unrevised. `notes/artifacts/deliverables/` exists but is currently empty.
 
 ## Project context (so suggestions stay in scope)
 
@@ -89,11 +92,9 @@ wins.
   OpenCode as the dev-side client.
 - **Primary compute**: Crux (access pending as of latest notes).
   Polaris/Sophia/Argo API are also in scope.
-- **Out of scope** (per
-  [`week1b_deliverable.md`](file:///home/nicholas/Documents/projects/alcf-viz-2026/notes/artifacts/week1b_deliverable.md)
-  and the 06-02 scope-down): INRs, MFAs, KANs, homomorphic data representations,
-  neural rendering research. The 06-02 meeting narrowed focus toward **ParaView
-  Docs MCP vs. ChatVis RAG benchmarking**.
+- **Out of scope** (per the 06-02 scope-down): INRs, MFAs, KANs, homomorphic
+  data representations, neural rendering research. The 06-02 meeting narrowed
+  focus toward **ParaView Docs MCP vs. ChatVis RAG benchmarking**.
 - OpenCode is wired to Argo via a local `argo-proxy` on port `52675` — full
   setup is in
   [`notes/artifacts/opencode.md`](file:///home/nicholas/Documents/projects/alcf-viz-2026/notes/artifacts/opencode.md).
