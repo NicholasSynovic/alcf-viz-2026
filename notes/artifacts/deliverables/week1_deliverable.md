@@ -11,29 +11,6 @@
 
 ## Problem Statement
 
-Scientific visualization at extreme scale remains a significant bottleneck in
-the scientific discovery process. Scientists routinely spend hours manually
-constructing ParaView pipelines to inspect simulation outputs — time that could
-be redirected toward analysis and insight. Agentic Large Language Model (LLM)
-systems offer a path to automating this process, but existing approaches divide
-into two camps with distinct limitations: code-generation agents (e.g., ChatVis)
-that are fast but fragile against API changes and accumulate errors across
-multi-step workflows, and tool-driven MCP agents (e.g., ParaView-MCP) that are
-stable but high-latency and narrowly constrained to predefined tool schemas.
-Recent work (Ai et al., SciVisAgentSkills, 2026) identifies a third design axis
-orthogonal to both: agent skills — structured, reusable packages of procedural
-knowledge encoding environment assumptions, tool usage patterns, API
-conventions, and domain heuristics. Skills improve code-generation and MCP-based
-agents alike, but their effect depends on the interaction between skill content,
-the underlying LLM, and the agent harness that loads and applies them. This
-harness-skill-model interaction is empirically unresolved: SciVisAgentSkills
-evaluated Claude Code and Codex, but OpenCode — the harness used in this project
-— has not been studied. No work has systematically compared all three design
-axes together, nor evaluated which combination of strategy, skill, and model
-produces the highest visual quality under a consistent harness. Critically, none
-of these camps addresses the human dimension of the problem: the bottleneck is
-not only technical, but collaborative.
-
 Effective scientific visualization requires close coordination between domain
 scientists and visualization experts. Domain scientists understand the data
 deeply — they know what phenomena to look for, what parameters are meaningful,
@@ -46,17 +23,33 @@ scientist who wants to explore a new camera angle, a different isosurface
 threshold, or an alternative colormap must wait on a vis expert to implement it.
 The result is reduced scientific agility and a narrower exploration of the
 visualization parameter space than the data warrants. This collaboration gap is
-the primary motivation for an agent that domain scientists can drive directly
-using informal natural language — not engineered queries, but the kind of casual
-description a scientist would give a colleague.
+the primary motivation for large language model (LLM) agents that domain
+scientists can drive directly using informal natural language — not engineered
+queries, but the kind of casual description a scientist would give a colleague.
 
-This bottleneck is especially acute in in-situ visualization settings, where
-pipelines must be specified before a simulation begins and cannot be easily
-revised once the experiment is running. While in-situ workflows are outside the
-scope of this project, they illustrate how pervasive the cost of rigid,
-expert-dependent visualization pipelines is across the scientific computing
-stack. This project targets post-hoc interactive visualization in ParaView as a
-concrete, tractable instance of the broader problem.
+As scientists routinely spend hours manually constructing ParaView pipelines to
+inspect simulation outputs — time that could be redirected toward analysis and
+insight. Agentic LLM systems offer a path to automating this process, but
+existing approaches divide into two camps with distinct limitations:
+
+1. code-generation agents (e.g., ChatVis) that are fast but fragile against API
+   changes and accumulate errors across multi-step workflows,
+
+2. tool-driven MCP agents (e.g., ParaView-MCP) that are stable but high-latency
+   and narrowly constrained to predefined tool schemas, and
+
+3. agent skills (Ai et al., SciVisAgentSkills, 2026) — structured, reusable
+   packages of procedural knowledge encoding environment assumptions, tool usage
+   patterns, API conventions, and domain heuristics.
+
+Each of these approaches have their merits, code-generation agents can
+iteratively improve the generated code by reading error logs and traces, tools
+provide the model with visual information and the ability to steer visualization
+software towards an ideal answer, and agent skills allows for repeatable
+processes to be codified and loaded progressively into the agent's context.
+However, **no work has systematically compared all three design axes together,
+nor evaluated which combination of strategy, skill, and model produces the
+highest visual quality under a consistent harness.**
 
 Against this backdrop, no existing system has evaluated all three design axes —
 code generation strategy, agent skill layer, and LLM backend — together under a
@@ -113,21 +106,6 @@ visual quality of the generated visualization as perceived by domain scientists
 research question that this project will address as part of its evaluation
 methodology.
 
-Several directions are explicitly out of scope. Implicit Neural Representations,
-Multiplicative Filter Architectures, Kolmogorov–Arnold Networks, homomorphic
-data representations, and neural rendering research were excluded by the June
-2026 project scope-down and remain so. Visualization backends other than
-ParaView — including Ascent, VTK, and matplotlib — are not targeted. User
-studies of scientist behavior require ANL IRB approval on a timeline
-incompatible with this internship and are excluded. Agent-to-Agent (A2A)
-communication is a stretch goal at most and is not a committed deliverable.
-In-situ visualization workflows motivate the problem but are not a contribution
-of this project, which targets post-hoc interactive visualization only. Finally,
-agent harness comparison — for example, evaluating the same strategies under
-Claude Code or Codex rather than OpenCode — is left for future work; the
-SciVisAgentSkills paper provides those baselines and this project contributes
-the OpenCode data point.
-
 ---
 
 ## System Design Decisions (M1.3)
@@ -144,12 +122,11 @@ set of pre-defined tool calls.
 ### Agent Harness
 
 **OpenCode** serves as the coding agent harness, wired to the **ALCF Argo
-Gateway API** via a local `argo-proxy` instance. The Argo Gateway provides
-access to both proprietary and open LLM backends through a single
-OpenAI-compatible endpoint, eliminating the need for separate API integrations.
-A custom `smolagent`-based prompt-improvement subagent pre-processes user
-queries to conform to the structured input format expected by the visualization
-pipeline.
+Gateway API** . The Argo Gateway provides access to both proprietary and open
+LLM backends through a single OpenAI-compatible endpoint, eliminating the need
+for separate API integrations. A custom OpenCode prompt-improvement subagent
+pre-processes user queries to conform to the structured input format expected by
+the visualization pipeline.
 
 ### LLM Backends
 
@@ -243,22 +220,6 @@ The pipeline operates in six stages:
 6. **Iteration.** If the output does not meet the goal, the agent revises the
    script and re-submits. The loop continues until the visualization passes
    evaluation or a step budget is exhausted.
-
----
-
-## ALCF Project Milestone Mapping (M1.4)
-
-This project advances **ALCF Project IDEAS Milestones [PLACEHOLDER]** and
-**[PLACEHOLDER]**. Specifically:
-
-- The ParaView MCP server and agentic harness are direct contributions to the
-  team's ongoing work on AI-assisted scientific tooling.
-- The benchmark suite and evaluation methodology provide a reusable framework
-  for measuring the effectiveness of agentic visualization systems on DOE HPC
-  infrastructure.
-- The multi-model comparison generates empirical evidence to inform future model
-  selection decisions across the ALCF Visualization Laboratory's AI-assisted
-  tooling stack.
 
 ---
 
